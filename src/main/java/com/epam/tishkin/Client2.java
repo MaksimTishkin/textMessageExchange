@@ -13,14 +13,14 @@ public class Client2 {
             Socket socket = new Socket(InetAddress.getLocalHost(), Server.PORT);
             reader = new Reader(socket);
             writer = new Writer(socket);
+            reader.start();
+            writer.start();
         } catch (IOException e) {
             System.out.println("Проблема в конструкторе Client2");
         }
     }
 
     public static void main(String[] args) {
-        Client client2 = new Client();
-        client2.reader.start();
-        client2.writer.start();
+        Client client = new Client();
     }
 }

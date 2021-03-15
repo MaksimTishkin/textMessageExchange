@@ -28,8 +28,10 @@ public class ServerThread extends Thread {
                     break;
                 }
                 for (ServerThread currentServerThread : Server.serverThreadList) {
-                    currentServerThread.out.write(clientMessage + "\n");
-                    out.flush();
+                    if (currentServerThread != this) {
+                        currentServerThread.out.write(clientMessage + "\n");
+                        currentServerThread.out.flush();
+                    }
                 }
             }
         } catch (IOException e) {
