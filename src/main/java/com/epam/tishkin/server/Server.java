@@ -38,7 +38,9 @@ public class Server {
     public void startServer() throws IOException {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                CLIENT_SESSION_LIST.add(new ClientSession(clientSocket));
+                ClientSession client = new ClientSession(clientSocket);
+                CLIENT_SESSION_LIST.add(client);
+                client.start();
             }
     }
 
