@@ -14,7 +14,7 @@ public class Client3 {
 
     public Client3() {
         try {
-            Socket socket = new Socket(InetAddress.getLocalHost(), Server.PORT);
+            Socket socket = new Socket(InetAddress.getLocalHost(), 3345);
             reader = new Reader(socket);
             writer = new Writer(socket);
             reader.start();
