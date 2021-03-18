@@ -9,10 +9,10 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Properties;
 
-public class Client {
+public abstract class Client {
     final static Logger logger = LogManager.getLogger(Client.class);
-    private Reader reader;
-    private Writer writer;
+    protected Reader reader;
+    protected Writer writer;
 
     public Client() {
         try {
@@ -26,11 +26,5 @@ public class Client {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        Client client = new Client();
-        client.reader.start();
-        client.writer.start();
     }
 }
