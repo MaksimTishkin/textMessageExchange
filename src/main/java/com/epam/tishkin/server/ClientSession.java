@@ -1,5 +1,8 @@
 package com.epam.tishkin.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Properties;
@@ -9,7 +12,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class ServerThread extends Thread {
+public class ClientSession extends Thread {
     private String clientName;
     private BufferedReader in;
     private BufferedWriter out;
@@ -17,8 +20,9 @@ public class ServerThread extends Thread {
     private final static Queue<String> lastFiveMessage = new ConcurrentLinkedQueue<>();
     private final ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final Lock writeLock = readWriteLock.writeLock();
+    final static Logger logger = LogManager.getLogger(ClientSession.class);
 
-    public ServerThread(Socket socket) {
+    public ClientSession(Socket socket) {
         try {
             Properties properties = new Properties();
             properties.load(new FileReader("src/main/resources/config.properties"));
@@ -42,7 +46,7 @@ public class ServerThread extends Thread {
                 readLock.unlock();
             }
         } catch (IOException e) {
-            System.out.println("Что то не так в конструкторе ServerThread");
+            logger.error(e.getMessage());
         }
         start();
     }
@@ -57,10 +61,10 @@ public class ServerThread extends Thread {
                     out.flush();
                     break;
                 }
-                for (ServerThread currentServerThread : Server.getServerThreadList()) {
-                    if (currentServerThread != this) {
-                        currentServerThread.out.write(clientName + ": " + clientMessage + "\n");
-                        currentServerThread.out.flush();
+                for (ClientSession currentClientSession : Server.getClientSessionList()) {
+                    if (currentClientSession != this) {
+                        currentClientSession.out.write(clientName + ": " + clientMessage + "\n");
+                        currentClientSession.out.flush();
                     }
                 }
                 writeLock.lock();
@@ -76,7 +80,7 @@ public class ServerThread extends Thread {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Проблема в методе ран ServerThread");
+            logger.error(e.getMessage());
         }
     }
 }

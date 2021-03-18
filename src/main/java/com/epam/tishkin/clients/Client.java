@@ -1,17 +1,18 @@
 package com.epam.tishkin.clients;
 
-import com.epam.tishkin.server.Server;
 import com.epam.tishkin.clients.ioTools.Reader;
 import com.epam.tishkin.clients.ioTools.Writer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Properties;
 
 public class Client {
-    Reader reader;
-    Writer writer;
+    final static Logger logger = LogManager.getLogger(Client.class);
+    private Reader reader;
+    private Writer writer;
 
     public Client() {
         try {
@@ -22,14 +23,14 @@ public class Client {
             Socket socket = new Socket(localHost, port);
             reader = new Reader(socket);
             writer = new Writer(socket);
-            reader.start();
-            writer.start();
         } catch (IOException e) {
-            System.out.println("Проблема в конструкторе Client");
+            logger.error(e.getMessage());
         }
     }
 
     public static void main(String[] args) {
         Client client = new Client();
+        client.reader.start();
+        client.writer.start();
     }
 }

@@ -1,10 +1,14 @@
 package com.epam.tishkin.clients.ioTools;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.net.Socket;
 
 public class Writer extends Thread {
     private final Socket socket;
+    final static Logger logger = LogManager.getLogger(Writer.class);
 
     public Writer(Socket socket) {
         this.socket = socket;
@@ -21,7 +25,7 @@ public class Writer extends Thread {
                 write.flush();
             } while (!"exit".equals(message));
         } catch (IOException e) {
-            System.out.println("Проблема в Writer");
+            logger.error(e.getMessage());
         }
     }
 }
