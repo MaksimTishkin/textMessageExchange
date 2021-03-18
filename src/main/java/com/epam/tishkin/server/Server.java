@@ -36,12 +36,12 @@ public class Server {
     }
 
     public void startServer() throws IOException {
-            while (true) {
-                Socket clientSocket = serverSocket.accept();
-                ClientSession client = new ClientSession(clientSocket);
-                CLIENT_SESSION_LIST.add(client);
-                client.start();
-            }
+        while (true) {
+            Socket clientSocket = serverSocket.accept();
+            ClientSession client = new ClientSession(clientSocket);
+            CLIENT_SESSION_LIST.add(client);
+            client.start();
+        }
     }
 
      public static List<ClientSession> getClientSessionList() {
