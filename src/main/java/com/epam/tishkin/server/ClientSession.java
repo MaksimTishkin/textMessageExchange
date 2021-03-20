@@ -27,19 +27,18 @@ public class ClientSession extends Thread {
             fileWriter = new FileWriter("history.txt", true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            clientName = getClientName();
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
 
-    private String getClientName() throws IOException {
+    public void setClientName() throws IOException {
         out.write("Enter your name" + "\n");
         out.flush();
-        return in.readLine();
+        clientName = in.readLine();
     }
 
-    private void sendLastFiveMessage() throws IOException {
+    public void sendLastFiveMessage() throws IOException {
         readLock.lock();
         try {
             if (lastFiveMessage.size() > 0) {
@@ -70,7 +69,7 @@ public class ClientSession extends Thread {
         fileWriter.flush();
     }
 
-    private void sendMessageToClients(String message) throws IOException {
+    public void sendMessageToClients(String message) throws IOException {
         for (ClientSession currentClientSession : Server.getClientSessionList()) {
             if (currentClientSession != this) {
                 currentClientSession.out.write(clientName + ": " + message + "\n");
@@ -79,9 +78,18 @@ public class ClientSession extends Thread {
         }
     }
 
+    public String getClientName() {
+        return clientName;
+    }
+
+    public Queue<String> getLastFiveMessage() {
+        return lastFiveMessage;
+    }
+
     @Override
     public void run() {
         try {
+            setClientName();
             sendLastFiveMessage();
             while (true) {
                 String clientMessage = in.readLine();

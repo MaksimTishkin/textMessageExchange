@@ -19,5 +19,7 @@ public abstract class Client {
         this.socket = socket;
         reader = new Reader(socket);
         writer = new Writer(socket);
+        reader.start();
+        writer.start();
     }
 }

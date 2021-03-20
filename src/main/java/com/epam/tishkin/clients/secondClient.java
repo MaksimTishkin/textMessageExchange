@@ -16,8 +16,6 @@ public class secondClient extends Client {
             String localHost = properties.getProperty("localHost");
             int port = Integer.parseInt(properties.getProperty("PORT"));
             Client client = new secondClient(new Socket(localHost, port));
-            client.reader.start();
-            client.writer.start();
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

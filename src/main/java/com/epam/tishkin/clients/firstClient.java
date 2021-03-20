@@ -16,8 +16,6 @@ public class firstClient extends Client {
             String localHost = properties.getProperty("localHost");
             int port = Integer.parseInt(properties.getProperty("PORT"));
             Client client = new firstClient(new Socket(localHost, port));
-            client.reader.start();
-            client.writer.start();
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
