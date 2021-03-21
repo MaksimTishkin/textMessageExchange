@@ -26,12 +26,14 @@ public class TextMessageExchangeTest {
     @Test
     public void testSetClientName() throws IOException {
         String expectedClientName = "Maxim";
+        String expectedRequestToEnterName = "Enter your name" + "\n";
         in = new ByteArrayInputStream(expectedClientName.getBytes());
         out = new ByteArrayOutputStream();
         Mockito.when(socket.getInputStream()).thenReturn(in);
         Mockito.when(socket.getOutputStream()).thenReturn(out);
         server = new ClientSession(socket);
         server.setClientName();
+        Assertions.assertEquals(expectedRequestToEnterName, out.toString());
         Assertions.assertEquals(expectedClientName, server.getClientName());
     }
 
