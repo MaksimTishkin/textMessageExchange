@@ -1,7 +1,7 @@
 package com.epam.tishkin.clients;
 
-import com.epam.tishkin.clients.ioTools.Reader;
-import com.epam.tishkin.clients.ioTools.Writer;
+import com.epam.tishkin.clients.io.Reader;
+import com.epam.tishkin.clients.io.Writer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

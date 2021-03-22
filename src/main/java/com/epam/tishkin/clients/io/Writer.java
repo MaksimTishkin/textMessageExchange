@@ -1,4 +1,4 @@
-package com.epam.tishkin.clients.ioTools;
+package com.epam.tishkin.clients.io;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
